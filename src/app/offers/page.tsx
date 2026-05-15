@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   description: 'Shop smart and save big! Explore exclusive active discounts, seasonal sales, fashion deals, and dining offers from retailers at Majestic City Colombo.'
 }
 
+const categoryGradients: Record<string, string> = {
+  fashion: 'linear-gradient(135deg, #EF4444 0%, #F59E0B 100%)',
+  food: 'linear-gradient(135deg, #10B981 0%, #3B82F6 100%)',
+  entertainment: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
+  services: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+  beauty: 'linear-gradient(135deg, #EC4899 0%, #F472B6 100%)'
+}
+
 export default function OffersPage() {
   return (
     <div className="bg-white min-h-screen py-24">
@@ -34,8 +42,9 @@ export default function OffersPage() {
               year: 'numeric'
             })
 
-            const shareText = `Hey! Look at this sweet offer at Majestic City: "${offer.discount} off at ${offer.tenantName}" valid until ${validUntil}! Let's check it out.`
+            const shareText = `Hey! Look at this sweet offer at Majestic City: "${offer.headline} at ${offer.tenantName}" valid until ${validUntil}! Let's check it out.`
             const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`
+            const fallbackGradient = categoryGradients[offer.category] || categoryGradients.fashion
 
             return (
               <div
@@ -45,10 +54,10 @@ export default function OffersPage() {
                 {/* Promo Header banner */}
                 <div className="relative aspect-[16/9] overflow-hidden">
                   <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
-                    <ImagePlaceholder gradient={offer.imageGradient} aspectRatio="h-full" rounded="rounded-none" />
+                    <ImagePlaceholder gradient={fallbackGradient} aspectRatio="h-full" rounded="rounded-none" />
                   </div>
                   <div className="absolute top-0 left-0 bg-brand-red text-white flex items-center gap-1.5 px-4 py-2 rounded-none text-xs font-extrabold uppercase tracking-widest shadow-lg z-10">
-                    <Percent className="w-3.5 h-3.5 text-white" /> {offer.discount}
+                    <Percent className="w-3.5 h-3.5 text-white" /> PROMO
                   </div>
                 </div>
 
@@ -57,7 +66,7 @@ export default function OffersPage() {
                   <div className="flex flex-col gap-3">
                     <span className="text-[10px] text-brand-red font-black uppercase tracking-[0.2em]">{offer.tenantName}</span>
                     <h3 className="font-display font-extrabold text-xl md:text-2xl text-brand-black tracking-tight leading-tight group-hover:text-brand-red transition-colors">
-                      {offer.title}
+                      {offer.headline}
                     </h3>
                     <p className="text-brand-muted text-xs sm:text-sm leading-relaxed font-normal">
                       {offer.description}
