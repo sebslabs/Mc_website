@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { news } from '@/lib/news-data'
+import { newsArticles as news } from '@/lib/news-data'
 import SectionHeading from '@/components/ui/SectionHeading'
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder'
 import Badge from '@/components/ui/Badge'
