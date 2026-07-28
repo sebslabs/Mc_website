@@ -26,11 +26,19 @@ export const VisitorInfoBar: React.FC = () => {
   ]
 
   return (
-    <section className="bg-brand-navy border-y border-white/5 text-white py-12">
+    <section className="bg-brand-navy border-y border-brand-red text-white w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((item, idx) => (
-            <div key={idx} className="flex items-center gap-4 text-left sm:border-l border-white/10 sm:pl-6 lg:[&:nth-child(4n+1)]:border-0 lg:[&:nth-child(4n+1)]:pl-0 md:[&:nth-child(2n+1)]:border-0 md:[&:nth-child(2n+1)]:pl-0 first:border-0 first:pl-0">
+            <div 
+              key={idx} 
+              className={`flex items-center justify-center sm:justify-start gap-4 text-left py-6 sm:py-8 lg:py-12 ${
+                idx === 0 ? 'border-b border-brand-red/50 lg:border-b-0 lg:pr-8' : 
+                idx === 1 ? 'border-b border-brand-red/50 lg:border-b-0 sm:border-l sm:border-brand-red/50 sm:pl-8 lg:px-8' : 
+                idx === 2 ? 'border-b border-brand-red/50 sm:border-b-0 lg:border-l lg:border-brand-red/50 lg:px-8' : 
+                'sm:border-l sm:border-brand-red/50 sm:pl-8 lg:pl-8'
+              }`}
+            >
               {item.icon}
               <div className="flex flex-col">
                 <span className="font-display font-black text-sm uppercase tracking-wider text-white">

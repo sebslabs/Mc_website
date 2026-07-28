@@ -13,27 +13,31 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll'
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col w-full -mt-24 md:-mt-28 overflow-hidden">
-      {/* 1. Hero Landing */}
-      <HeroSection />
+    <div className="flex flex-col w-full gap-16 md:gap-24 -mt-24 md:-mt-28 overflow-hidden">
+      <div className="flex flex-col w-full">
+        {/* 1. Hero Landing */}
+        <HeroSection />
 
-      {/* 2. Infinite Marquee Announcement Ticker */}
-      <AnnouncementTicker />
+        {/* 2. Infinite Marquee Announcement Ticker */}
+        <AnnouncementTicker />
+      </div>
 
       {/* 3. Featured 4-Column Service Grid */}
       <RevealOnScroll>
         <FeaturedGrid />
       </RevealOnScroll>
 
-      {/* 4. Cineplex Horizontal Scroll Snap Strip */}
-      <RevealOnScroll>
-        <NowShowingStrip />
-      </RevealOnScroll>
+      <div className="flex flex-col w-full">
+        {/* 4. Cineplex Horizontal Scroll Snap Strip */}
+        <RevealOnScroll>
+          <NowShowingStrip />
+        </RevealOnScroll>
 
-      {/* 5. Visitor Information Quick Bar */}
-      <RevealOnScroll>
-        <VisitorInfoBar />
-      </RevealOnScroll>
+        {/* 5. Visitor Information Quick Bar */}
+        <RevealOnScroll>
+          <VisitorInfoBar />
+        </RevealOnScroll>
+      </div>
 
       {/* 6. KISS FM Live glass studio integration */}
       

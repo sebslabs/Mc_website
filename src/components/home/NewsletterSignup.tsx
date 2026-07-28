@@ -43,7 +43,7 @@ export const NewsletterSignup: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h2 className="font-display font-black text-2xl sm:text-4xl text-brand-black">
+          <h2 className="font-display font-bold text-2xl sm:text-4xl text-brand-black">
             GET THE WEEKLY MC VIBE
           </h2>
           <p className="text-brand-muted text-sm sm:text-base leading-relaxed">

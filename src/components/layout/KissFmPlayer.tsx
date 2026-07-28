@@ -1,12 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Pause, Volume2, Minimize2, Maximize2, Radio } from 'lucide-react'
 import { useKissFmStore } from '@/store/useKissFmStore'
 
 export const KissFmPlayer: React.FC = () => {
   const [mounted, setMounted] = useState(false)
+  const audioRef = useRef<HTMLAudioElement>(null)
+
   const {
     isPlaying,
     volume,
@@ -15,12 +17,34 @@ export const KissFmPlayer: React.FC = () => {
     toggle,
     setVolume,
     minimise,
-    expand
+    expand,
+    setIsPlaying
   } = useKissFmStore()
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // Handle play/pause via state
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play().catch(e => {
+          console.error("Audio playback failed", e)
+          setIsPlaying(false) // Revert state if autoplay is blocked
+        })
+      } else {
+        audioRef.current.pause()
+      }
+    }
+  }, [isPlaying, setIsPlaying])
+
+  // Handle volume changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume
+    }
+  }, [volume])
 
   if (!mounted) {
     return null // Avoid SSR hydration mismatch
@@ -33,6 +57,7 @@ export const KissFmPlayer: React.FC = () => {
         className="bg-brand-navy border border-white/10 shadow-2xl overflow-hidden rounded-none text-white"
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       >
+        <audio ref={audioRef} src="https://srv02.onlineradio.voaplus.com/kissfm" preload="none" />
         <AnimatePresence mode="wait">
           {isMinimised ? (
             /* MINIMISED STATE */

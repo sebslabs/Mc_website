@@ -26,8 +26,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ['var(--font-montserrat)', 'sans-serif'],
-        body: ['var(--font-inter)', 'sans-serif'],
+        display: ['"aven-medium"', 'sans-serif'],
+        body: ['"aven-medium"', 'sans-serif'],
       },
       animation: {
         'marquee': 'marquee 45s linear infinite',

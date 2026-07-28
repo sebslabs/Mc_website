@@ -17,7 +17,7 @@ interface KissFmState {
 export const useKissFmStore = create<KissFmState>()(
   persist(
     (set) => ({
-      isPlaying: false,
+      isPlaying: true,
       volume: 0.8,
       currentShow: 'The Morning Rush with Shehani',
       isMinimised: false,

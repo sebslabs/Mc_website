@@ -1,12 +1,11 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Clock, Globe, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react'
+import React from 'react'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import { Film } from '@/lib/types'
 import ImagePlaceholder, { FILM_GRADIENT } from '../ui/ImagePlaceholder'
 import Badge from '../ui/Badge'
-import Button from '../ui/Button'
-import FilmDetail from './FilmDetail'
 
 interface FilmCardProps {
   film: Film
@@ -14,11 +13,6 @@ interface FilmCardProps {
 }
 
 export const FilmCard: React.FC<FilmCardProps> = ({ film, selectedDate }) => {
-  const [isExpanded, setIsExpanded] = useState(false)
-
-  const activeSessionObj = film.sessions.find((s) => s.date === selectedDate)
-  const times = activeSessionObj ? activeSessionObj.times : []
-
   const getRatingVariant = (rating: string) => {
     switch (rating) {
       case 'U': return 'green'
@@ -30,72 +24,54 @@ export const FilmCard: React.FC<FilmCardProps> = ({ film, selectedDate }) => {
   }
 
   return (
-    <div className="bg-brand-soft border border-brand-border rounded-none overflow-hidden flex flex-col hover:bg-white hover:shadow-xl transition-all duration-300">
-      <div className="grid grid-cols-1 md:grid-cols-4 p-5 md:p-6 gap-6 items-center">
-        {/* Poster */}
-        <div className="aspect-[2/3] md:col-span-1 rounded-none overflow-hidden relative shadow-lg">
-          <ImagePlaceholder gradient={FILM_GRADIENT} aspectRatio="h-full" label={film.language} rounded="rounded-none" />
-          <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
-            <Badge variant={getRatingVariant(film.rating)} className="rounded-none">{film.rating}</Badge>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="md:col-span-3 flex flex-col gap-4 text-left">
-          <div className="flex flex-col gap-2">
-            <span className="text-[10px] text-brand-red font-bold tracking-widest uppercase">{film.genre}</span>
-            <h3 className="font-display font-black text-brand-black text-2xl md:text-3xl tracking-tight leading-snug">
-              {film.title}
-            </h3>
-            
-            <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-brand-muted uppercase tracking-wider mt-1">
-              <span className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-brand-red" /> {film.runtime} Mins
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Globe className="w-4 h-4 text-brand-red" /> {film.language}
-              </span>
-            </div>
-          </div>
-
-          {/* Quick Sessions Preview */}
-          <div className="flex flex-col gap-2 mt-1">
-            <span className="text-[10px] text-brand-muted font-bold uppercase tracking-wider">Today&apos;s Sessions</span>
-            {times.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {times.map((time, idx) => (
-                  <span
-                    key={idx}
-                    className="border border-brand-red/30 text-brand-red px-3 py-1.5 rounded-none text-xs font-semibold bg-brand-red/5"
-                  >
-                    {time}
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <span className="text-xs text-brand-muted">No schedules for today. Click details.</span>
-            )}
-          </div>
-
-          <Button
-            variant="ghost"
-            size="md"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full md:w-48 text-xs font-bold mt-2 rounded-none"
-            icon={isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          >
-            {isExpanded ? 'Hide Details' : 'View Full Details'}
-          </Button>
-        </div>
+    <Link 
+      href={`/cinema/${film.id}`}
+      className="group relative flex flex-col justify-end overflow-hidden rounded-none aspect-[2/3] shadow-lg cursor-pointer border border-white/5 bg-brand-black block"
+    >
+      {/* Poster / Background */}
+      <div className="absolute inset-0">
+        <ImagePlaceholder 
+          gradient={FILM_GRADIENT} 
+          imageUrl={film.poster} 
+          aspectRatio="h-full" 
+          rounded="rounded-none" 
+          label={film.language}
+        />
       </div>
 
-      {/* Expandable Section */}
-      {isExpanded && (
-        <div className="animate-fade-up">
-          <FilmDetail film={film} selectedDate={selectedDate} />
+      {/* Rating Badge (top-left) */}
+      <div className="absolute top-3 left-3 z-20">
+        <Badge variant={getRatingVariant(film.rating)} className="rounded-none px-2.5 py-0.5 text-xs font-bold shadow-sm">
+          {film.rating}
+        </Badge>
+      </div>
+
+      {/* Gradient Shadow overlay at the bottom for readability (visible on hover) */}
+      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/95 via-black/55 to-transparent pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+      {/* Content Overlay (visible on hover) */}
+      <div className="relative z-20 p-4 rounded-none text-left flex flex-col gap-1 text-white w-full opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+        <span className="text-[10px] md:text-xs font-bold uppercase text-brand-red tracking-widest">
+          {film.genre}
+        </span>
+        <h3 className="font-display font-black text-lg md:text-xl tracking-tight leading-snug line-clamp-2 transition-colors">
+          {film.title}
+        </h3>
+        <p className="text-white/70 text-xs font-light tracking-wide flex items-center gap-2">
+          <span>{film.runtime} Mins</span>
+          <span>•</span>
+          <span className="uppercase">{film.language}</span>
+        </p>
+
+        {/* Book Now Button: Glass background by default, expands and turns red on hover */}
+        <div className="mt-3 flex items-center gap-2 h-9 px-3 rounded-none bg-white/15 backdrop-blur-md text-white border border-white/20 group-hover:bg-brand-red group-hover:text-white group-hover:border-transparent transition-all duration-300 self-start">
+          <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-out whitespace-nowrap">
+            {film.status === 'upcoming' ? 'Coming Soon' : 'Book Now'}
+          </span>
+          <ArrowRight className="w-4 h-4" />
         </div>
-      )}
-    </div>
+      </div>
+    </Link>
   )
 }
 export default FilmCard

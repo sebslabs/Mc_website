@@ -82,35 +82,50 @@ export const NewTenantsShowcase: React.FC = () => {
           {highlights.map((store) => (
             <div
               key={store.id}
-              className="w-[calc(100vw-2.5rem)] sm:w-96 shrink-0 snap-center bg-white rounded-none p-8 border border-brand-border flex flex-col justify-between gap-8 shadow-sm hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(255,59,48,0.15)] hover:border-brand-red/30 transition-all duration-500 cursor-pointer"
+              className="group relative w-[calc(100vw-2.5rem)] sm:w-96 shrink-0 snap-center bg-brand-black rounded-none border border-brand-border flex flex-col overflow-hidden shadow-sm hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(255,59,48,0.15)] hover:border-brand-red/50 transition-all duration-500 cursor-pointer min-h-[400px]"
             >
-              <div className="flex flex-col gap-5 text-left">
-                {/* Logo Placeholder */}
-                <div className="w-16 h-16 bg-brand-red/5 border border-brand-red/10 rounded-none flex items-center justify-center select-none shadow-sm">
-                  <span className="font-display font-black text-3xl text-brand-red">{store.name.charAt(0)}</span>
+              {/* Full Card Background Image */}
+              <div className="absolute inset-0 w-full h-full">
+                <img 
+                  src={`https://images.unsplash.com/photo-${store.id === 'cargills-foodhall' ? '1542838132-92c53300491e' : store.id === 'kottu-bar' ? '1555939594-58d7cb561ad1' : store.id === 'waffle-house' ? '1504754524776-8f4f37790ca0' : store.id === 'dsi-showroom' ? '1549298916-b41d501d3772' : store.id === 'hemas-pharmacy' ? '1585435557343-3b092031a831' : store.id === 'cool-planet' ? '1441984904996-e0b6ba687e04' : store.id === 'moose-clothing' ? '1523381210434-271e8be1f52b' : '1542272604-787c3835535d'}?auto=format&fit=crop&w=600&q=80`} 
+                  alt={store.name} 
+                  className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-0" />
+              </div>
+
+              {/* Content Overlay */}
+              <div className="flex flex-col gap-4 text-left p-6 relative z-10 flex-grow justify-end">
+                {/* Store Logo */}
+                <div className="w-14 h-14 bg-white border border-brand-border rounded-none flex items-center justify-center select-none shadow-md overflow-hidden mb-2">
+                  <img 
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(store.name)}&background=FF3B30&color=fff&rounded=false&bold=true&font-size=0.4`} 
+                    alt={`${store.name} Logo`} 
+                    className="w-full h-full object-cover" 
+                  />
                 </div>
 
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-3 flex-wrap">
-                    <h3 className="font-display font-black text-xl sm:text-2xl text-brand-black tracking-wide uppercase leading-none">
+                    <h3 className="font-display font-black text-xl sm:text-2xl text-white tracking-wide uppercase leading-none">
                       {store.name}
                     </h3>
                     {store.isNew && (
-                      <span className="bg-brand-red/10 text-brand-red font-extrabold text-[9px] tracking-wider px-2.5 py-1 rounded-none uppercase leading-none border border-brand-red/10">
+                      <span className="bg-brand-red/90 text-white font-extrabold text-[9px] tracking-wider px-2.5 py-1 rounded-none uppercase leading-none shadow-sm">
                         NEW
                       </span>
                     )}
                   </div>
-                  <p className="text-brand-muted text-xs leading-relaxed font-normal line-clamp-2">
+                  <p className="text-white/80 text-xs leading-relaxed font-normal line-clamp-2">
                     {store.description}
                   </p>
                 </div>
               </div>
 
               {/* Badges Row */}
-              <div className="flex items-center justify-between pt-4 border-t border-brand-border text-xs font-semibold">
-                <Badge variant="surface" className="rounded-none">{formatFloor(store.floor)}</Badge>
-                <span className="text-[10px] text-brand-muted uppercase font-bold tracking-widest">{store.category}</span>
+              <div className="flex items-center justify-between p-6 pt-4 relative z-10 border-t border-white/20 text-xs font-semibold">
+                <Badge variant="danger" className="rounded-none bg-brand-red text-white border-brand-red shadow-sm">{formatFloor(store.floor)}</Badge>
+                <span className="text-[10px] text-white/90 uppercase font-bold tracking-widest">{store.category}</span>
               </div>
             </div>
           ))}

@@ -49,7 +49,7 @@ export const InstagramStrip: React.FC = () => {
           <span className="text-brand-red text-xs font-bold tracking-widest uppercase">
             Join the Vibe
           </span>
-          <h2 className="font-display font-extrabold text-3xl md:text-5xl text-brand-black tracking-tight">
+          <h2 className="font-display font-bold text-3xl md:text-5xl text-brand-black tracking-tight">
             VIBING ON INSTAGRAM
           </h2>
           <a

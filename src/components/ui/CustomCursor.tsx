@@ -59,9 +59,6 @@ export const CustomCursor: React.FC = () => {
       {/* Fixed Global Style to suppress the system cursor if desired (Optional, commented out in favor of keeping system cursor for accessibility unless explicitly hidden) */}
       <style jsx global>{`
         @media (pointer: fine) {
-          body {
-            cursor: none !important;
-          }
           a, button, input, select, textarea, [role="button"], .cursor-pointer {
             cursor: none !important;
           }
@@ -76,7 +73,7 @@ export const CustomCursor: React.FC = () => {
           y: cursorY, 
           translateX: '-50%', 
           translateY: '-50%',
-          opacity: isVisible ? 1 : 0
+          opacity: isVisible && isHovered ? 1 : 0
         }}
         animate={{
           scale: isHovered ? 0.5 : 1,
@@ -91,7 +88,7 @@ export const CustomCursor: React.FC = () => {
           y: ringY, 
           translateX: '-50%', 
           translateY: '-50%',
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible && isHovered ? 1 : 0,
           width: '36px',
           height: '36px'
         }}

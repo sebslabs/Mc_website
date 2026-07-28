@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Search, Calendar } from 'lucide-react'
+import { Menu, X, Search, Calendar, Ticket, ArrowRight } from 'lucide-react'
 import Button from '../ui/Button'
 import logo from '@/logo.png'
 
@@ -46,66 +46,53 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header
-        className={`fixed z-50 transition-all duration-500 left-4 right-4 mx-auto rounded-none border backdrop-blur-xl ${
+        className={`fixed z-50 transition-all duration-500 left-0 right-0 w-full h-[72px] bg-white border-b border-brand-border ${
           isScrolled
-            ? 'max-w-5xl top-4 bg-white/90 py-2.5 shadow-xl border-black/5'
-            : 'max-w-6xl top-6 bg-white/50 py-3.5 shadow-md border-black/5'
+            ? 'top-0 shadow-xl'
+            : 'top-0 shadow-md'
         }`}
       >
-        <div className="w-full px-6 sm:px-8 flex items-center justify-between">
-          <Link href="/" className="flex items-center group select-none py-1">
+        <div className="w-full h-full flex items-stretch justify-between">
+          <Link href="/" className="flex items-center group select-none px-6 lg:px-8 border-r border-brand-red/20 shrink-0">
             <Image
               src={logo}
               alt="Majestic City Logo"
               height={50}
-              className="h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105"
+              className="h-10 lg:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105"
               priority
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1.5 bg-black/[0.03] border border-black/5 rounded-none p-1 backdrop-blur-md">
+          <nav className="hidden md:flex items-stretch overflow-hidden">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className={`font-display text-xs font-bold uppercase tracking-widest transition-all relative px-4 py-2 rounded-none ${
-                  isActive(link.href) ? 'text-white font-black' : 'text-brand-black/60 hover:text-brand-black'
+                className={`flex items-center justify-center font-display text-[11px] lg:text-xs font-bold uppercase tracking-widest transition-all relative px-3 lg:px-6 border-r border-brand-red/20 ${
+                  isActive(link.href) ? 'text-brand-red bg-white/60' : 'text-brand-black/70 hover:bg-black/5 hover:text-brand-black'
                 }`}
               >
-                <span className="relative z-10">{link.name}</span>
-                {isActive(link.href) && (
-                  <motion.div
-                    layoutId="navbar-active-indicator"
-                    className="absolute inset-0 bg-brand-red rounded-none -z-10 shadow-lg shadow-brand-red/20"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
+                {link.name}
               </Link>
             ))}
           </nav>
 
           {/* Actions */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link href="/stores" className="text-brand-black/60 hover:text-brand-red hover:scale-110 transition-all p-2">
-              <Search className="w-5 h-5" />
-            </Link>
-            <Button
-              variant="danger"
-              size="sm"
-              href="/visit"
-              className="rounded-none font-bold tracking-wider text-xs px-5 py-2 hover:shadow-lg hover:shadow-brand-red/20 transition-all"
-              icon={<Calendar className="w-4 h-4" />}
+          <div className="hidden md:flex items-stretch shrink-0">
+            <Link
+              href="/cinema"
+              className="flex items-center justify-center gap-3 bg-[#FF3B30] text-white hover:bg-[#D62828] transition-colors px-6 lg:px-10 h-full w-full shadow-md"
             >
-              Visit
-            </Button>
+              <Ticket className="w-5 h-5 shrink-0" strokeWidth={2} />
+              <div className="font-display font-bold text-sm tracking-wide whitespace-nowrap">
+                Booking Now Cinema Ticket
+              </div>
+            </Link>
           </div>
 
           {/* Mobile Hamburguer */}
-          <div className="flex md:hidden items-center gap-3">
-            <Link href="/stores" className="text-brand-black/60 hover:text-brand-red p-2">
-              <Search className="w-5 h-5" />
-            </Link>
+          <div className="flex md:hidden items-center px-6 border-l border-brand-red/20">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className="text-brand-black/80 hover:text-brand-red p-2 transition-colors focus:outline-none"
@@ -121,49 +108,75 @@ export const Navbar: React.FC = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-white z-50 flex flex-col justify-center items-center"
+            initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            animate={{ opacity: 1, backdropFilter: 'blur(16px)' }}
+            exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-brand-navy/95 z-50 flex flex-col pt-24 px-6 pb-12 overflow-y-auto"
           >
+            {/* Top Logo */}
+            <div className="absolute top-6 left-6">
+              <Image 
+                src={logo} 
+                alt="Majestic City" 
+                height={40} 
+                className="h-10 w-auto object-contain brightness-0 invert opacity-90" 
+              />
+            </div>
+
             {/* Close button */}
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-6 right-6 text-brand-black hover:text-brand-red p-2 transition-colors focus:outline-none"
+              className="absolute top-6 right-6 text-white/70 hover:text-brand-red p-2 transition-colors focus:outline-none bg-white/5 rounded-full"
               aria-label="Close menu"
             >
-              <X className="w-8 h-8" />
+              <X className="w-7 h-7" />
             </button>
 
             {/* Menu Links */}
-            <nav className="flex flex-col items-center gap-8 text-center">
+            <nav className="flex flex-col gap-6 mt-4 flex-grow justify-center">
               {navLinks.map((link, idx) => (
                 <motion.div
                   key={link.name}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.05 + 0.1 }}
+                  className="border-b border-white/10 pb-4"
                 >
                   <Link
                     href={link.href}
-                    className={`font-display font-bold text-3xl transition-colors hover:text-brand-red ${
-                      isActive(link.href) ? 'text-brand-red' : 'text-brand-black'
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`group flex items-center justify-between font-display font-black text-3xl uppercase tracking-wider transition-all ${
+                      isActive(link.href) ? 'text-brand-red' : 'text-white hover:text-brand-red'
                     }`}
                   >
-                    {link.name}
+                    <span>{link.name}</span>
+                    <ArrowRight className={`w-6 h-6 transition-all duration-300 ${isActive(link.href) ? 'opacity-100 translate-x-0 text-brand-red' : 'opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0'}`} />
                   </Link>
                 </motion.div>
               ))}
+              
               <motion.div
-                initial={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: navLinks.length * 0.05 + 0.1 }}
-                className="mt-4"
+                transition={{ delay: navLinks.length * 0.05 + 0.2 }}
+                className="mt-6 flex flex-col gap-8"
               >
-                <Button variant="danger" size="lg" href="/visit" onClick={() => setIsMobileMenuOpen(false)} className="rounded-none">
-                  Plan Your Visit
-                </Button>
+                <Link
+                  href="/cinema"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-3 bg-brand-red text-white hover:bg-brand-red/80 transition-colors px-6 py-4 w-full shadow-lg"
+                >
+                  <Ticket className="w-6 h-6 shrink-0" strokeWidth={2} />
+                  <div className="font-display font-bold text-sm tracking-widest uppercase whitespace-nowrap">
+                    Booking Now Cinema Ticket
+                  </div>
+                </Link>
+
+                <div className="flex flex-col gap-2 text-center text-white/50 text-[10px] tracking-widest uppercase font-bold">
+                  <p>10 Station Road, Colombo 04</p>
+                  <p>+94 11 250 1444</p>
+                </div>
               </motion.div>
             </nav>
           </motion.div>

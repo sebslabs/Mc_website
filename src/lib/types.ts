@@ -25,7 +25,13 @@ export interface Film {
     date: string           // ISO date string (YYYY-MM-DD)
     times: string[]        // ['10:00', '13:30', '17:00', '20:30']
   }[]
+  status?: 'now-showing' | 'upcoming'
   isHighlighted?: boolean
+  poster?: string
+  trailerVideoId?: string
+  director?: string
+  cast?: string[]
+  releaseDate?: string
 }
 
 export interface Event {
