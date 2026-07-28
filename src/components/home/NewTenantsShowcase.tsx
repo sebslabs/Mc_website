@@ -124,7 +124,7 @@ export const NewTenantsShowcase: React.FC = () => {
 
               {/* Badges Row */}
               <div className="flex items-center justify-between p-6 pt-4 relative z-10 border-t border-white/20 text-xs font-semibold">
-                <Badge variant="danger" className="rounded-none bg-brand-red text-white border-brand-red shadow-sm">{formatFloor(store.floor)}</Badge>
+                <Badge variant="red" className="rounded-none bg-brand-red text-white border-brand-red shadow-sm">{formatFloor(store.floor)}</Badge>
                 <span className="text-[10px] text-white/90 uppercase font-bold tracking-widest">{store.category}</span>
               </div>
             </div>
